@@ -3,11 +3,11 @@ const router = express.Router()
 const SavedLocations = require('../models/savedLocationModel')
 
 //GET ALL LOCATIONS
-router.get('/', (req, res) => {
-  SavedLocations.find()
-    .then(locations => res.json(locations))
-    .catch(err => console.log(err))
-})
+// router.get('/', (req, res) => {
+//   SavedLocations.find()
+//     .then(locations => res.json(locations))
+//     .catch(err => console.log(err))
+// })
 
 //POST NEW LOCATION
 router.post('/', (req, res) => {

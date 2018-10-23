@@ -20,9 +20,14 @@
   "homepage": "https://github.com/ortizlu/iss-tracker-backend#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "express": "^4.16.4",
-    "mongoose": "^5.3.5"
+    "express-session": "^1.15.6",
+    "mongoose": "^5.3.5",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
   }
 }
