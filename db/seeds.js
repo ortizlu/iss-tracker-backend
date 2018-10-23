@@ -1,4 +1,4 @@
-const SavedLocation = require('./models.js')
+const SavedLocation = require('./SavedLocations.js')
 const SavedLocations = require('./saved-locations.json')
 
 SavedLocation.remove({})
