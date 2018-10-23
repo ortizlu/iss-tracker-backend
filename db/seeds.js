@@ -1,7 +1,5 @@
 const SavedLocation = require('../models/savedLocationModel')
-const allLocations = require('./saved-locations.json')
 const User = require('../models/userModel')
-const allUsers = require('./users.json')
 
 User.find({}).remove(() => {
   SavedLocation.find({}).remove(() => {

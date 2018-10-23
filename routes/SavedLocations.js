@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
 
 //FIND ONE AND SHOW
 router.get('/:id', (req, res) => {
-  SavedLocations.findById(req.params.id)
+  SavedLocations.findOne({ _id: req.params.id })
     .then(location => {
       res.json(location)
     })
