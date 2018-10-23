@@ -1,7 +1,7 @@
 const mongoose = require('../db/connection')
 const Schema = mongoose.Schema
 
-const SavedLocationSchema = new mongoose.Schema({
+const SavedLocation = new mongoose.Schema({
   title: String,
   location: String,
   createdAt: {
@@ -14,4 +14,4 @@ const SavedLocationSchema = new mongoose.Schema({
   }
 })
 
-module.exports = mongoose.model('SavedLocation', SavedLocationSchema)
+module.exports = mongoose.model('SavedLocation', SavedLocation)

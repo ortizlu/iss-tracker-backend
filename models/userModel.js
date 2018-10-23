@@ -1,7 +1,7 @@
 const mongoose = require('../db/connection.js')
 const Schema = mongoose.Schema
 
-const UserSchema = new mongoose.Schema({
+const User = new mongoose.Schema({
   username: String,
   password: String,
   savedLocations: [
@@ -12,4 +12,4 @@ const UserSchema = new mongoose.Schema({
   ]
 })
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', User)
