@@ -1,5 +1,4 @@
 const passport = require('passport')
-const passportJWT
 const LocalStrategy = require('passport-local').Strategy
 const User = require('../models/userModel')
 
