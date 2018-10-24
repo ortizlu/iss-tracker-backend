@@ -4,6 +4,7 @@ const jwt = require('jwt-simple')
 const passport = require('../config/passport')
 const config = require('../config/config')
 const User = require('../models/userModel.js')
+const bcrypt = require('bcrypt-nodejs')
 
 //FINDING ALL USERS
 router.get('/', (req, res) => {
@@ -21,7 +22,7 @@ router.post('/signup', (req, res) => {
   if (req.body.username && req.body.password) {
     let newUser = {
       username: req.body.username,
-      password: req.body.password
+      password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null)
     }
     User.findOne({ username: req.body.username }).then(user => {
       if (!user) {
@@ -52,7 +53,7 @@ router.post('/login', (req, res) => {
   if (req.body.username && req.body.password) {
     User.findOne({ username: req.body.username }).then(user => {
       if (user) {
-        if (user.password === req.body.password) {
+        if (user.validPassword(req.body.password)) {
           var payload = {
             id: user.id
           }
