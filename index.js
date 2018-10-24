@@ -12,9 +12,6 @@ app.set('port', process.env.PORT || 3001)
 app.use(parser.json())
 app.use(cors())
 
-//SECRET SESSION PASSWORD!
-app.use(session({ secret: 'SECRET-PASSWORD-SECRET' }))
-
 //PASSPORT STUFF
 require('./config/passport')(passport)
 app.use(passport.initialize())
