@@ -5,27 +5,16 @@ const passport = require('../config/passport')
 const config = require('../config/config')
 const User = require('../models/userModel.js')
 
-// //FINDING ALL USERS
-// router.get('/', (req, res) => {
-//   User.find()
-//     .then(users => {
-//       res.json(users)
-//     })
-//     .catch(err => {
-//       console.log(err)
-//     })
-// })
-
-// //CREATING A NEW USER
-// router.post('/', (req, res) => {
-//   User.create(req.body)
-//     .then(newUser => {
-//       res.json(newUser)
-//     })
-//     .catch(err => {
-//       console.log(err)
-//     })
-// })
+//FINDING ALL USERS
+router.get('/', (req, res) => {
+  User.find()
+    .then(users => {
+      res.json(users)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
 
 //USER SIGNUP
 router.post('/signup', (req, res) => {
