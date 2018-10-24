@@ -29,7 +29,8 @@ router.post('/signup', (req, res) => {
         User.create(newUser).then(user => {
           if (user) {
             let payload = {
-              id: newUser.id
+              id: user.id,
+              username: user.username
             }
             let token = jwt.encode(payload, config.jwtSecret)
             res.json({
@@ -55,7 +56,8 @@ router.post('/login', (req, res) => {
       if (user) {
         if (user.validPassword(req.body.password)) {
           var payload = {
-            id: user.id
+            id: user.id,
+            username: user.username
           }
           var token = jwt.encode(payload, config.jwtSecret)
           res.json({
