@@ -5,6 +5,7 @@ const passport = require('../config/passport')
 const config = require('../config/config')
 const User = require('../models/userModel.js')
 const bcrypt = require('bcrypt-nodejs')
+const jwtDecode = require('jwt-decode')
 
 //FINDING ALL USERS
 router.get('/', (req, res) => {
@@ -77,35 +78,64 @@ router.post('/login', (req, res) => {
 
 //GETTING ONE USER AND DISPLAYING IT
 router.get('/:id', (req, res) => {
-  User.findOne({ _id: req.params.id })
-    .then(foundUser => {
-      res.json(foundUser)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  if (jwtDecode(req.headers.authorization).id === req.params.id) {
+    User.findOne({ _id: req.params.id })
+      .then(foundUser => {
+        res.json({
+          id: foundUser.id,
+          username: foundUser.username,
+          savedLocations: foundUser.savedLocations
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  } else {
+    res.sendStatus(401)
+  }
 })
 
 //GETTING ONE USER AND UPDATING IT
 router.put('/:id', (req, res) => {
-  User.findOneAndUpdate({ _id: req.params.id }, req.body)
-    .then(updatedUser => {
-      res.json(updatedUser)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  if (jwtDecode(req.headers.authorization).id === req.params.id) {
+    User.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        username: req.body.username,
+        password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8))
+      }
+    )
+      .then(updatedUser => {
+        var payload = {
+          id: updatedUser.id,
+          username: updatedUser.username
+        }
+        var token = jwt.encode(payload, config.jwtSecret)
+        res.json({
+          token: token
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  } else {
+    res.sendStatus(401)
+  }
 })
 
 //GETTING ONE USER AND DELETING IT
 router.delete('/:id', (req, res) => {
-  User.findOneAndDelete({ _id: req.params.id })
-    .then(deletedUser => {
-      res.json(deletedUser)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  if (jwtDecode(req.headers.authorization).id === req.params.id) {
+    User.findOneAndDelete({ _id: req.params.id })
+      .then(deletedUser => {
+        res.json(deletedUser)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  } else {
+    res.sendStatus(401)
+  }
 })
 
 module.exports = router
