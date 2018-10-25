@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const SavedLocations = require('../models/savedLocationModel')
+const User = require('../models/Users')
+const jwtDecode = require('jwt-decode')
 
 //GET ALL LOCATIONS
 // router.get('/', (req, res) => {
@@ -11,6 +13,7 @@ const SavedLocations = require('../models/savedLocationModel')
 
 //POST NEW LOCATION
 router.post('/', (req, res) => {
+  User.findById(jwtDecode(req.headers.authorization).id)
   SavedLocations.create(req.body)
     .then(location => res.json(location))
     .catch(err => console.log(err))

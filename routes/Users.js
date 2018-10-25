@@ -106,14 +106,7 @@ router.put('/:id', (req, res) => {
       }
     )
       .then(updatedUser => {
-        var payload = {
-          id: updatedUser.id,
-          username: updatedUser.username
-        }
-        var token = jwt.encode(payload, config.jwtSecret)
-        res.json({
-          token: token
-        })
+        console.log(updatedUser)
       })
       .catch(err => {
         console.log(err)
