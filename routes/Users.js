@@ -79,13 +79,10 @@ router.post('/login', (req, res) => {
 //GETTING ONE USER AND DISPLAYING IT
 router.get('/:id', (req, res) => {
   if (jwtDecode(req.headers.authorization).id === req.params.id) {
-    User.findOne({ _id: req.params.id })
+    User.findOne({ _id: req.params.id }).populate('savedLocations')
       .then(foundUser => {
-        res.json({
-          id: foundUser.id,
-          username: foundUser.username,
-          savedLocations: foundUser.savedLocations
-        })
+        console.log(foundUser)
+        res.json(foundUser)
       })
       .catch(err => {
         console.log(err)
@@ -106,7 +103,7 @@ router.put('/:id', (req, res) => {
       }
     )
       .then(updatedUser => {
-        console.log(updatedUser)
+        res.json(updatedUser)
       })
       .catch(err => {
         console.log(err)
