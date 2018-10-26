@@ -49,26 +49,28 @@ router.get('/:id', (req, res) => {
 
 //FIND ONE AND UPDATE
 router.put('/:id', (req, res) => {
-  // User.findById(jwtDecode(req.headers.authorization).id).then(founduser => {
-  SavedLocations.findOneAndUpdate({ _id: req.params.id }, req.body)
-    .then(updatedLocation => {
-      res.json(updatedLocation)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  // });
+  User.findById(jwtDecode(req.headers.authorization).id).then(founduser => {
+    SavedLocations.findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then(updatedLocation => {
+        res.json(updatedLocation)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
 })
 
 //FIND ONE AND DELETE
 router.delete('/:id', (req, res) => {
-  SavedLocations.findOneAndDelete({ _id: req.params.id })
-    .then(deletedLocation => {
-      res.json(deletedLocation)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  User.findById(jwtDecode(req.headers.authorization).id).then(founduser => {
+    SavedLocations.findOneAndDelete({ _id: req.params.id })
+      .then(deletedLocation => {
+        res.json(deletedLocation)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  })
 })
 
 module.exports = router
