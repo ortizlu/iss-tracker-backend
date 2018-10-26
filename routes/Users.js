@@ -81,7 +81,6 @@ router.get('/:id', (req, res) => {
   if (jwtDecode(req.headers.authorization).id === req.params.id) {
     User.findOne({ _id: req.params.id }).populate('savedLocations')
       .then(foundUser => {
-        console.log(foundUser)
         res.json(foundUser)
       })
       .catch(err => {

@@ -3,7 +3,17 @@ const router = express.Router()
 const SavedLocations = require('../models/savedLocationModel')
 const User = require('../models/userModel.js')
 const jwtDecode = require('jwt-decode')
+const axios = require('axios')
 
+// router.get('/api', (req, res) => {
+//   axios
+//   .get('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyDGpcbl_iqDQvUb-qa_-r1nh3In4QXL-xo')
+//   .then(response => {
+//     console.log('back distance')
+//     console.log(response)
+//     res.json(response)
+//   })
+// })
 // GET ALL LOCATIONS
 router.get('/', (req, res) => {
   SavedLocations.find()
