@@ -1,6 +1,7 @@
 const express = require('express')
 const parser = require('body-parser')
 const app = express()
+require('dotenv').config()
 // const Question = require('./db/models.js')
 const cors = require('cors')
 const session = require('express-session')
