@@ -6,6 +6,7 @@ const config = require('../config/config')
 const User = require('../models/userModel.js')
 const bcrypt = require('bcrypt-nodejs')
 const jwtDecode = require('jwt-decode')
+const savedLocations = require('../models/savedLocationModel')
 
 //FINDING ALL USERS
 router.get('/', (req, res) => {
@@ -79,7 +80,8 @@ router.post('/login', (req, res) => {
 //GETTING ONE USER AND DISPLAYING IT
 router.get('/:id', (req, res) => {
   if (jwtDecode(req.headers.authorization).id === req.params.id) {
-    User.findOne({ _id: req.params.id }).populate('savedLocations')
+    User.findOne({ _id: req.params.id })
+      .populate('savedLocations')
       .then(foundUser => {
         res.json(foundUser)
       })
@@ -115,12 +117,17 @@ router.put('/:id', (req, res) => {
 //GETTING ONE USER AND DELETING IT
 router.delete('/:id', (req, res) => {
   if (jwtDecode(req.headers.authorization).id === req.params.id) {
-    User.findOneAndDelete({ _id: req.params.id })
-      .then(deletedUser => {
-        res.json(deletedUser)
-      })
-      .catch(err => {
-        console.log(err)
+    savedLocations
+      .find({ author: req.params.id })
+      .remove()
+      .then(_ => {
+        User.findOneAndDelete({ _id: req.params.id })
+          .then(deletedUser => {
+            res.json(deletedUser)
+          })
+          .catch(err => {
+            console.log(err)
+          })
       })
   } else {
     res.sendStatus(401)

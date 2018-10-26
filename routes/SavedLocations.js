@@ -5,15 +5,13 @@ const User = require('../models/userModel.js')
 const jwtDecode = require('jwt-decode')
 const axios = require('axios')
 
-// router.get('/api', (req, res) => {
-//   axios
-//   .get('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyDGpcbl_iqDQvUb-qa_-r1nh3In4QXL-xo')
-//   .then(response => {
-//     console.log('back distance')
-//     console.log(response)
-//     res.json(response)
-//   })
-// })
+router.all(function(req, res, next) {
+  if (jwtDecode(req.headers.authorization).id) {
+    next()
+  } else {
+    res.json({ message: 'You need to be logged in' }).status(400)
+  }
+})
 
 // GET ALL LOCATIONS
 router.get('/', (req, res) => {
@@ -25,12 +23,15 @@ router.get('/', (req, res) => {
 //POST NEW LOCATION
 router.post('/', (req, res) => {
   User.findById(jwtDecode(req.headers.authorization).id).then(founduser => {
-    SavedLocations.create(req.body)
+    SavedLocations.create({
+      ...req.body,
+      author: founduser._id
+    })
       .then(location => {
         res.json(location)
         founduser.savedLocations.push(location)
       })
-      .then(_ => founduser.save(err => console.log(err)))
+      .then(_ => founduser.save())
       .catch(err => console.log(err))
   })
 })
