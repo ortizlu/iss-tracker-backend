@@ -14,6 +14,7 @@ const axios = require('axios')
 //     res.json(response)
 //   })
 // })
+
 // GET ALL LOCATIONS
 router.get('/', (req, res) => {
   SavedLocations.find()
@@ -63,7 +64,9 @@ router.put('/:id', (req, res) => {
 //FIND ONE AND DELETE
 router.delete('/:id', (req, res) => {
   User.findById(jwtDecode(req.headers.authorization).id).then(founduser => {
-    SavedLocations.findOneAndDelete({ _id: req.params.id })
+    SavedLocations.findOneAndDelete({
+      _id: req.params.id
+    })
       .then(deletedLocation => {
         res.json(deletedLocation)
       })
